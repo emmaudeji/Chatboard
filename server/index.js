@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
+import postRoutes from './routes/posts.js'
+
 
 const app = express();
 
@@ -10,8 +12,10 @@ app.use(bodyParser.json({ limit: '31mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '31mb', extended: true }))
 app.use(cors());
 
-// setup mongodb
+// routes
+app.use('/posts', postRoutes)
 
+// setup mongodb
 const CONNECTION_URL = 'mongodb+srv://gogreneinfo:cat89boy@cluster0.pwt69y1.mongodb.net/?retryWrites=true&w=majority'
 const PORT = process.env.PORT || 5000;
 
