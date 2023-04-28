@@ -1,6 +1,17 @@
 import { Heading, Posts, Form, Footer} from '../src/components/index'
 
+import { useEffect } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { getPosts } from './actions/posts';
+
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [ dispatch]);
 
   return (
     <>
