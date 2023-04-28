@@ -7,7 +7,7 @@ Designed using Using React, Node.js, Express & MongoDB
 
 <!-- setting up -->
 #### Setup:
-Run on both client and server side
+Run on both my-project and server side
 ` npm i && npm start `
 
 <!-- stages -->
