@@ -17,11 +17,11 @@ function App() {
   return (
     <>
       <Heading/>
-      <div className="section-padding w-full min-h-[80vh] grid sm:grid-cols-4 gap-6 py-10">
-        <div className='col-span-3 '>
+      <div className="overflow-hidden px-4 sm:px-16 lg:px-36 min-h-[80vh] grid sm:grid-cols-4 gap-6 py-10">
+        <div className='sm:col-span-3 '>
           <Posts setCurrentId={setCurrentId}/> 
         </div>
-        <div className="sm:col-span-1 grid">
+        <div className="sm:col-span-1">
           <div className='w-full'>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
           </div>

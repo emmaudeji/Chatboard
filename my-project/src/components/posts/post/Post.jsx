@@ -10,7 +10,8 @@ const Post = ({_id, title, message, selectedFile, likeCount, createdAt, creator,
 const dispatch = useDispatch()
 
   return (
-    <div className="w-full rounded border border-zinc-300  relative">
+    <div>
+        <div className="w-full rounded border border-zinc-300  relative">
       
       <div className="absolute top-5 right-0 left-0 px-3 z-20 text-white pb-0">
         <div className="flex items-center justify-between">
@@ -50,6 +51,8 @@ const dispatch = useDispatch()
         </div>
       </div>
     </div>
+    </div>
+    
   )
 }
 

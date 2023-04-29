@@ -16,6 +16,10 @@ app.use(cors());
 // routes
 app.use('/posts', postRoutes)
 
+app.use('/', (req, res) => {
+  res.send('Hey, the server is running')
+})
+
 // setup mongodb
 const CONNECTION_URL = process.env.CONNECTION_URL
 const PORT = process.env.PORT || 5000;

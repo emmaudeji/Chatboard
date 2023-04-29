@@ -10,7 +10,7 @@ const Posts = ({setCurrentId}) => {
     <>
     {
       !posts .length ? <CircularProgress /> : (
-        <div className="w-full grid sm:grid-cols-3 gap-3">
+        <div className=" grid sm:grid-cols-3 gap-3">
           {
             posts?.map(({_id, title, createdAt, message, likeCount, selectedFile, creator, tags}) => (
               <div key={_id}>

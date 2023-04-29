@@ -32,15 +32,3 @@ a {
 .section-padding{
   @apply w-full px-4 sm:px-16 lg:px-36
 }
-
-.section-container {
-  @apply w-full flex px-4 sm:px-16 lg:px-36 flex-col md:flex-row;
-}
-
-.section-container-grid {
-  @apply grid sm:grid-cols-2 px-4 sm:px-16 lg:px-56 py-24 gap-3 sm:gap-5 md:gap-8 sm:flex-row sm:items-center
-}
-
-.onHover{
-  @apply hover:bg-zinc-300 duration-500 cursor-pointer
-}
