@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FileBase from 'react-file-base64';
-import { createPost } from "../../actions/posts";
-import { useDispatch, } from 'react-redux';
+import { createPost, updatePost } from "../../actions/posts";
+import { useDispatch, useSelector } from 'react-redux';
 
 
-const Form = () => {
-  const dispatch = useDispatch()
-
+const Form = (currentId , setCurrentId) => {
   const [postData, setPostData] = useState({ 
     creator: '', title: '', message: '', tags: '', selectedFile: '' });
+  const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null) ;
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+      if(post) setPostData(post)
+    }, [post])
+
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -30,16 +36,22 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     // post request
-    dispatch(createPost(postData));
-    console.log(postData)
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
     clearData();
   }
 
   const clearData = () => {
+    setCurrentId(null);
     setPostData({
       creator: '', title: '', message: '', tags: '', selectedFile: ''
   })
   }
+
+  console.log('post', post, 'currentId', currentId, 'filtered', useSelector((state) => state.posts.filter((p) => p._id === currentId)), 'all posts', useSelector((state) => state.posts), 'postdata', postData)
 
   return (
     <div className="w-full p-2 border border-zinc-300">
@@ -47,7 +59,7 @@ const Form = () => {
         {/* post title */}
         <div className="flex justify-center items-center p-2 font-semibold">
           <h3>
-            {`Create a Memory`}
+            {currentId ? `Editting a Memory` : `Create a Memory`}
           </h3>
         </div>
 
@@ -74,7 +86,7 @@ const Form = () => {
         {/* file input */}
         <div className="">
           <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
-          {/* <input type="file" name="selectedFile" value={postData.selectedFile}/> */}
+          {/* <input type="file" name="selectedFile" onChange={handleChange}/> */}
         </div>
 
         {/* submit btn */}
@@ -100,7 +112,7 @@ export const FormInput = ({handleChange, value, title, placeholder}) => {
   return (
     <div className="flex-1 rounded">
           <p className="text-zinc-700 capitalize">{title}</p>
-          <div className="flex-1 bg-white w-full overflow-hidden py-3 text-zinc-400 px-4 border border-zinc-300">
+          <div className="flex-1 bg-white w-full overflow-hidden py-3 px-4 border border-zinc-300">
             <input type="text" name={title} value={value} placeholder={placeholder} 
             onChange={handleChange}
             className="w-full"/>

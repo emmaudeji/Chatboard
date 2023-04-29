@@ -1,10 +1,28 @@
 import { useSelector } from 'react-redux';
+import Post from './post/Post';
+import { CircularProgress } from '@material-ui/core';
 
-const Posts = () => {
+
+const Posts = ({setCurrentId}) => {
   const posts = useSelector((state) => state.posts);
-  console.log(posts)
+  // console.log(posts)
   return (
-    <div className="w-full h-80 border border-zinc-300">Posts</div>
+    <>
+    {
+      !posts .length ? <CircularProgress /> : (
+        <div className="w-full grid sm:grid-cols-3 gap-3">
+          {
+            posts?.map(({_id, title, createdAt, message, likeCount, selectedFile, creator, tags}) => (
+              <div key={_id}>
+                <Post setCurrentId={setCurrentId} _id={_id}
+                title={title} message={message} selectedFile={selectedFile} creator={creator} tags={tags} createdAt={createdAt} likeCount={likeCount}/>
+              </div>
+            ))
+          }
+        </div>
+      )
+    }
+    </>
   )
 }
 
