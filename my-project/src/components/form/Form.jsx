@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import FileBase from 'react-file-base64';
 import { createPost, updatePost } from "../../actions/posts";
 import { useDispatch, useSelector } from 'react-redux';
+import {Link} from 'react-router-dom'
 
 
-const Form = (currentId , setCurrentId) => {
+const Form = ({currentId, setCurrentId}) => {
+  
   const [postData, setPostData] = useState({ 
-    creator: '', title: '', message: '', tags: '', selectedFile: '' });
+     title: '', message: '', tags: '', selectedFile: '' });
+  const user = JSON.parse(localStorage.getItem('profile'))
+    
   const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null) ;
 
   const dispatch = useDispatch()
@@ -39,19 +43,29 @@ const Form = (currentId , setCurrentId) => {
     if (currentId) {
       dispatch(updatePost(currentId, postData));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }))
     }
     clearData();
   }
 
   const clearData = () => {
-    setCurrentId(null);
     setPostData({
-      creator: '', title: '', message: '', tags: '', selectedFile: ''
-  })
+       title: '', message: '', tags: '', selectedFile: ''
+      })
+    setCurrentId(null);
   }
 
-  console.log('post', post, 'currentId', currentId, 'filtered', useSelector((state) => state.posts.filter((p) => p._id === currentId)), 'all posts', useSelector((state) => state.posts), 'postdata', postData)
+  // console.log('post', post, 'currentId', currentId, 'filtered', useSelector((state) => state.posts.filter((p) => p._id === currentId)), 'all posts', useSelector((state) => state.posts), 'postdata', postData)
+
+  if(!user?.result?.name){
+    return (
+      <div className="grid gap-3 p-4 text-[14px] border border-zinc-300 rounded">
+        <p>{`You can register or signin to start adding memories and liking others post.`}</p> 
+        <Link to='auth'
+        className="bg-blue-600 p-2 text-white hover:bg-blue-500 duration-300 rounded text-center cursor-pointer">Register</Link>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full p-2 border border-zinc-300">
@@ -63,11 +77,7 @@ const Form = (currentId , setCurrentId) => {
           </h3>
         </div>
 
-        {/* creator field */}
-        <FormInput
-          handleChange={handleChange} value={postData.creator} title={'creator'} placeholder={`Enter your name`}
-        />
-        
+               
         {/* title field */}
         <FormInput
           handleChange={handleChange} value={postData.title} title={'title'} placeholder={`Enter title of message`}

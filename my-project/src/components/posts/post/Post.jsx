@@ -1,13 +1,16 @@
 import moment from 'moment'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useDispatch } from 'react-redux';
 import { deletePost, likePost } from '../../../actions/posts';
 
-const Post = ({_id, title, message, selectedFile, likeCount, createdAt, creator, tags,  setCurrentId}) => {
+const Post = ({_id, title, message, selectedFile, creator, likes, createdAt, name, tags,  setCurrentId}) => {
 
 const dispatch = useDispatch()
+const user = JSON.parse(localStorage.getItem('profile'));
+
 
   return (
     <div>
@@ -15,11 +18,15 @@ const dispatch = useDispatch()
       
       <div className="absolute top-5 right-0 left-0 px-3 z-20 text-white pb-0">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-xl">{creator} </h2>
+          <h2 className="font-semibold text-xl">{name} </h2>
+          
+          {(user?.result?.googleId === creator || user?.result?._id === creator) && (
           <div onClick={() => setCurrentId(_id)}
           className="font-bold cursor-pointer hover:scale-110 duration-300">
             <MoreHorizIcon/>
           </div>
+          )}
+          
         </div>
         <div className="pt-0">
         {moment(createdAt).fromNow()}
@@ -44,9 +51,11 @@ const dispatch = useDispatch()
           <div className=""><p>{message}</p></div>
           <div className="flex justify-between items-center" >
             <div onClick={() => dispatch(likePost(_id))}
-            className="flex gap-1"> <div className='cursor-pointer hover:text-blue-400 text-blue-700'><ThumbUpAltIcon/></div>{likeCount}</div>
-            <button onClick={() => dispatch(deletePost(_id))}
-            className='ursor-pointer hover:text-blue-400 text-blue-700'><DeleteIcon/></button>
+            className="flex gap-1 cursor-pointer"> <Likes likes={likes}/> </div>
+            
+            {(user?.result?.googleId === creator || user?.result?._id === creator) && ( <button onClick={() => dispatch(deletePost(_id))}
+            className='cursor-pointer' ><DeleteIcon/></button> )}
+
           </div>
         </div>
       </div>
@@ -57,3 +66,24 @@ const dispatch = useDispatch()
 }
 
 export default Post
+
+export const Likes = ({likes}) => {
+  if(likes?.length > 0) {
+    return (
+      <div className='text-sm flex gap-2'>
+        <ThumbUpAltIcon/>
+        <p>
+        {
+          likes?.length > 1 ? `You and ${likes?.length - 1} others`  : `${likes?.length} like${likes?.length > 1 ? 's' : ''}`
+        }
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div className='text-sm flex gap-2'>
+      <ThumbUpAltOutlined/> <p> {`${likes?.length} Likes` }</p>
+    </div>
+  )
+}
