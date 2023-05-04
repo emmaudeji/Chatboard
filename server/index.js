@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 
 import postRoutes from './routes/posts.js'
+import userRoutes from './routes/user.js'
 
 const app = express();
 dotenv.config();
@@ -15,13 +16,14 @@ app.use(cors());
 
 // routes
 app.use('/posts', postRoutes)
+app.use('/user', userRoutes)
 
 app.use('/', (req, res) => {
   res.send('Hey, the server is running')
 })
 
 // setup mongodb
-const CONNECTION_URL = process.env.CONNECTION_URL
+const CONNECTION_URL = process.env.LOCAL_DB
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(CONNECTION_URL)
