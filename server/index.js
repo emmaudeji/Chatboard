@@ -23,7 +23,7 @@ app.use('/', (req, res) => {
 })
 
 // setup mongodb
-const CONNECTION_URL = process.env.LOCAL_DB
+const CONNECTION_URL = process.env.CONNECTION_URL
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(CONNECTION_URL)

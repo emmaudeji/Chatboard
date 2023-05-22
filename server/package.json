@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "npm run build"
+    "build": "nodemon index.js"
   },
   "author": "emma udeji",
   "license": "ISC",
@@ -20,5 +20,9 @@
     "mongodb": "^5.3.0",
     "mongoose": "^7.1.0",
     "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1"
   }
 }
